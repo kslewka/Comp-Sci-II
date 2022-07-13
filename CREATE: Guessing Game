@@ -1,0 +1,58 @@
+/**************************************************************************
+ *  Author: Kaylin Slewka
+ *  Date: 14 July, 2022
+ *  Course: GOA CS2: Java
+ *  
+ *  This program prompts the user to input an integer, compares it with a
+ *  randomly generated number, displays either "Yes! You got it!" or "That's
+ *  not it," and asks whether they would like to play again.
+ *************************************************************************/
+import java.util.Scanner;
+import java.util.Random;
+
+public class GuessingGame 
+{
+    public static void main(String args[])
+    {
+        Scanner in = new Scanner(System.in);
+        char answerChar = 'y';
+        while (answerChar == 'y' || answerChar == 'Y') 
+        {
+            Random rand = new Random();
+            int randNum = rand.nextInt(10) + 1; //generates a random number between 1-10 (inclusive)
+            int guessInt;
+            for (int iteration = 0; iteration < 3; iteration++) //allow max 3 guesses/iterations
+            {
+                do //scanner is used to get user's input - if the integer is not within 1-10 (inclusive), they will be re-prompted
+                {
+                    System.out.println("Input an integer between 1-10: ");
+                    guessInt = in.nextInt();
+                }
+                while (guessInt < 1 || guessInt > 10); //repeat until the condition is false (this doesn't count as a guess/iteration)
+                
+                if (guessInt == randNum) 
+                {
+                    System.out.println("Yes! You got it!");
+                    break; //leave the for loop
+                }
+                else 
+                {
+                    System.out.println("Nope, that's not it");
+                }
+                
+                if (iteration == 2 && guessInt != randNum) //prints the answer during the final iteration if guessed wrong
+                {
+                System.out.println("The answer is: " + randNum);
+                }
+            }
+            System.out.print("Would you like to play again? (y/n)" );
+            /********************************************************
+             * Title: Scanner and nextChar() in Java
+             * Author: GeeksforGeeks
+             * Date: 2016
+             * Availability: https://www.geeksforgeeks.org/gfact-51-java-scanner-nextchar/
+            ********************************************************/
+            answerChar = in.next().charAt(0); //scanner is used to get user's input - either repeat the while loop or quit the program
+        }
+    }
+}
