@@ -17,11 +17,10 @@ int main(void)
         ************************************************************************/
         srand(time(NULL)); //set a different seed --> the generated number (randnum) will change at every execution
         int randnum = rand() % 10 + 1; //yeild a result between 1-10 (inclusive). Without +1, it would be between 0-9 (inclusive)
-
         //allow user max 3 guesses by incrementing "iteration" by 1
+        int guess;
         for (int iteration = 0; iteration < 3; iteration++)
         {
-            int guess;
             do
             {
                 //prompt user for integer between 1-10 (inclusive). If it's not within this range, the user will be reprompted (this doesn't count as a guess/iteration)
@@ -32,7 +31,7 @@ int main(void)
 
             if (guess == randnum)
             {
-                printf("Yes! You Got it!\n");
+                printf("Yes! You got it!\n");
                 break;
             }
             else
