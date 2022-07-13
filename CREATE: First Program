@@ -40,7 +40,10 @@ int main(void)
                 printf("Nope, that's not it\n");
             }
         }
-        printf("The answer is %i\n", randnum);
+        if (guess != randnum)
+        {
+            printf("The answer is %i\n", randnum);
+        }
         answer = get_char("Would you like to play again? (y/n) "); //get_char is used to change the variable & repeat the while loop or end the program
     }
     return 0;
