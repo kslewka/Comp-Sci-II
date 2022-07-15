@@ -1,0 +1,63 @@
+/**************************************************************************
+ *  Author: Kaylin Slewka
+ *  Date: 15 July, 2022
+ *  Course: GOA CS2: Java
+ *  
+ *  This program prompts the user to input a temperature, converts it to 
+ *  Celsius or Fahrenheit, and asks whether they would like to input another
+ *  temperature.
+ *************************************************************************/
+import java.util.Scanner;
+
+public class TemperatureConverter
+{
+    /*
+    * The following two methods convert the initial temp. to F or C using the 
+    * appropriate equation & return doubles
+    */
+    public static double convertToF(double tempDouble){ 
+        return (9.0/5 * tempDouble) + 32;
+    }
+    public static double convertToC(double tempDouble){
+        return (tempDouble - 32) * 5/9.0;
+    }
+    public static void main(String args[]){
+        Scanner in = new Scanner(System.in);
+        char playResponseChar = 'y';
+        char convertResponseChar;
+        double tempDouble;
+        while (playResponseChar == 'y' || playResponseChar == 'Y'){
+            System.out.println("Please enter a temperature: ");
+            /********************************************************
+             Lines 38-41 are inspired by the following resource
+             * Title: Difference Between next() and hasNext() Method in Java Collections
+             * Author: GeeksforGeeks
+             * Date: 2021
+             * Availability: https://www.geeksforgeeks.org/difference-between-next-and-hasnext-method-in-java-collections/
+            ********************************************************/
+            while (!in.hasNextDouble()){ //repeat until user inputs a double/"valid temperature"
+                //reject the user's input & reprompt them
+                in.next();
+                System.out.println("Please enter a valid temperature: ");
+            }
+            tempDouble = in.nextDouble(); //variable is assigned the user's input
+            do
+            {
+                System.out.println("Enter 'C' to convert to Fahrenheit or 'F' to convert to Celsius: ");
+                convertResponseChar = in.next().charAt(0); //return the first character
+            }
+            while (convertResponseChar != 'C' && convertResponseChar != 'F'); //repeat until F or C is inputted
+            if (convertResponseChar == 'C')
+            {
+                System.out.println("Temperature in Fahrenheit: " + convertToF(tempDouble)); //call method for appropriate conversion to F
+            }
+            else
+            {
+                System.out.println("Temperature in Celsius: " + convertToC(tempDouble));
+            }
+            System.out.println("Would you like to convert another temperature? (y/n): ");
+            playResponseChar = in.next().charAt(0); //repeat the while loop or quit the program
+        }
+        System.out.println("Thank you!");
+    }
+}
