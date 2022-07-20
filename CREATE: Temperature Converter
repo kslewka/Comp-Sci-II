@@ -37,7 +37,7 @@ public class TemperatureConverter
             ********************************************************/
             while (!in.hasNextDouble()){ //repeat until user inputs a double/"valid temperature"
                 //reject the user's input & reprompt them
-                in.next();
+                in.nextLine();
                 System.out.println("Please enter a valid temperature: ");
             }
             tempDouble = in.nextDouble(); //variable is assigned the user's input
