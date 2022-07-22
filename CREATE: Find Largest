@@ -1,0 +1,40 @@
+
+/**
+ * This program uses a for loop to search the temps array, finds the 
+ * largest value, and uses that index/location to print the corresponding value
+ * in the months array.
+ *
+ * @kaylin Slewka
+ * @2022
+ */
+public class findLargest
+{
+    /**
+     * The following method (indexLargestValue) returns the index of the largest value in the temps 
+     * array. The for loop runs through the entire array (since i = 0 & i < tempsLength). If a value 
+     * in the array (temps[i]) is larger than the variable largest (initially temps[0]), 
+     * the value stored inside largest will be replaced w/ a copy of temps[i] & the index 
+     * (initially 0) will be replaced w/ a copy of i.
+     */
+    public static int indexLargestValue(int[] temps) {
+        int largest = temps[0];
+        int index = 0;
+        
+        for (int i = 0; i < temps.length; i++) {
+            if (temps[i] > largest) {
+                largest = temps[i];
+                index = i;
+            }
+        }
+        return index;
+    }
+    public static void main(String[] args) {
+        String[] months = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        int[] temps = {34, 32, 40, 50, 55, 70, 73, 75, 70, 65, 55, 40};
+        
+        System.out.println("The highest temperature and its corresponding month is: ");
+        //call indexLargestValue method & print the value in that location (index)
+        //should print highest temp and corresponding month
+        System.out.println(months[indexLargestValue(temps)] + " - " + temps[indexLargestValue(temps)]); 
+    }
+}
