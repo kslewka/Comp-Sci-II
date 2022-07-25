@@ -1,0 +1,153 @@
+/**
+ * This program creates a Bar Graph representing the total rainfall per month
+ * in two cities.
+ *
+ * @author Kaylin Slewka
+ * @version 2022
+ */
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+
+public class BarGraph extends JFrame{
+    private JFrame frame;
+
+    public BarGraph() {
+        setTitle("Bar Graph");
+        setSize(400, 400);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(getSize());
+        add(new DrawBars(getSize()));
+        pack();
+        setVisible(true);
+    }
+
+    public static void main(String... argv) {
+        new BarGraph(); //run program
+    }
+
+    public static class DrawBars extends JPanel {
+        /*
+         * Declare Instance Variables Here
+         */
+        private int x = 40;
+        private int y = 250;
+        /*
+         * Rainfall sources: 
+         * Washington DC: https://www.weather.gov/media/lwx/climate/dcaprecip.pdf
+         * Seattle: https://www.seattleweatherblog.com/rain-stats/rainfall-2020/
+         */
+        //following three arrays are DC avg. rainfall, Seattle avg. rainfall, and months from Jan-Dec
+        private double[] dc = 
+            {2.79, 3.21, 2.31, 6.30, 2.49, 3.51, 6.51, 8.73, 5.53, 4.86, 6.14, 4.96};
+        private double[] seattle = 
+            {9.23, 3.63, 3.72, 2.71, 1.94, 1.57, .70, .88, 1.50, 3.48, 6.57, 5.35};     
+        private String[] months = 
+            {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+        public DrawBars(Dimension dimension) {
+            setSize(dimension);
+            setPreferredSize(dimension);
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D)g;  //g2 (graphics object) is used to draw things to the screen
+            //create a white background
+            g2.setColor(Color.white);
+            Dimension d = getSize();
+            g2.fillRect(0, 0, d.width, d.height);
+            
+            //create new colors for DC & Seattle
+            Color navy = new Color(4, 30, 66); 
+            Color iceBlue = new Color(153, 217, 217);
+            
+            //declare & initialise variables used throughout this section
+            int len = seattle.length;
+            int mult = getHeight()/25;
+            double largestDC = dc[0];
+            double largestSeattle = seattle[0];
+            double largestOverall = 0;
+            
+            for (int i = 0; i < len; i++) {
+                g2.setColor(Color.black);
+                g2.setFont (new Font("opaque", Font.PLAIN, 10));
+                g2.drawString(months[i], x, y+17); //draw labels for each month below the graph
+                
+                //find largest value in DC and Seattle arrays 
+                //largestOverall variable is assigned this value
+                if (dc[i] > largestDC) {
+                    largestDC = dc[i];
+                }
+                if (seattle[i] > largestSeattle) {
+                    largestSeattle = seattle[i];
+                }
+                if (largestSeattle > largestDC) {
+                    largestOverall = largestSeattle;
+                }
+                else {
+                    largestOverall = largestDC;
+                }
+                
+                //cast double DC and Seattle array values as integers
+                /**
+                 * Title: Convert Double to Integer in Java
+                 * Author: GeeksforGeeks
+                 * Date: 2022
+                 * Source: https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
+                 */
+                int valueDC = (int)dc[i];
+                int valueSeattle = (int)seattle[i];
+                
+                //paint vertical bars 
+                //navy for DC and ice blue for Seattle
+                g2.setColor(navy);
+                g2.fillRect(x , y-valueDC*mult, 10, valueDC*mult);
+                x+= 10; // increase by 10 (width of rectangle) --> no gap between bars of the same month
+                g2.setColor(iceBlue);
+                g2.fillRect(x, y-valueSeattle*mult, 10, valueSeattle*mult);
+                x += 20; //increase by 20 --> gap between bars of different months
+            }
+            //cast largest (double) value as an integer
+            int valueLargestOverall = (int)largestOverall;
+            //draw x-axis line in ice blue
+            g2.drawLine(x-365, y, getWidth(), y);
+            //draw y-axis line w/ same color
+            g2.drawLine(x-360, y+5, x-360, y-valueLargestOverall*mult-20); 
+            //draw x-axis label
+            g2.setColor(Color.black);
+            g2.drawString("Months from January - December", (x-20)/3, y+40); 
+            //rotate y-axis label
+            /**
+             * Title: How to draw text vertically with Java Graphics2D
+             * Author: Nam Ha Minh
+             * Date: 2019
+             * Source: https://www.codejava.net/java-se/graphics/how-to-draw-text-vertically-with-graphics2d
+             */
+            AffineTransform at = new AffineTransform();
+            AffineTransform defaultAt = g2.getTransform();
+            at.setToRotation(-Math.PI/2.0);
+            g2.setTransform(at);
+            g2.setFont (new Font("opaque", Font.PLAIN, 20));
+            g2.drawString("Average rainfall (inches)", -450, 20); //draw y-axis label
+            
+            g2.setTransform(defaultAt); //restore the original, non-rotating transform 
+            for (double i = 0; i <= valueLargestOverall+1; i++) { 
+                g2.setFont (new Font("opaque", Font.PLAIN, 7));
+                //y-axis max value is slighter larger than the max data point 
+                //draw numbers up to the largest value + 1
+                g2.drawString("" + i, x-382, y+2); 
+                g2.drawLine(x-365, y, x-360, y); //ticks 
+                y -= mult; //increa by mult value
+                        }
+
+            //display Washington DC anad Seattle text (legend) in navy and ice blue, respectively
+            g2.setColor(navy);
+            g2.setFont (new Font("opaque", Font.PLAIN, 20));
+            g2.drawString("Washington DC", 10, 30);
+            g2.setColor(iceBlue);
+            g2.drawString("Seattle", 200, 30);
+        }
+    }
+}
