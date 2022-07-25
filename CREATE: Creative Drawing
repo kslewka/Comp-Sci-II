@@ -1,0 +1,110 @@
+/**
+ * This program builds a JFrame (graphics window), adds a drawing panel, 
+ * and draws a penguin graphic.
+ * @Kaylin Slewka - Adapted from Leah Wolf 
+ * @2022
+ */
+
+import java.awt.*;
+import java.util.*;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+
+public class DrawingFrame extends JFrame {
+    //create & set up the window (JFrame)
+    public DrawingFrame(){
+        add(new BoardFace());  //add the drawing Panel onto the Frame
+        setTitle("Drawing Window");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(500,500);
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
+    }
+
+    public static void main(String[] args) {  //run the program
+        new DrawingFrame();
+    }
+    
+    private class BoardFace extends JPanel {
+    
+        private Dimension d;
+        public final int BOARD_WIDTH = 500;
+        public final int BOARD_HEIGHT = 500;
+        private int x = 0;
+     
+        public BoardFace() {
+            setFocusable(true);
+            //panel is same size as Frame
+            d = new Dimension(BOARD_WIDTH, BOARD_HEIGHT);  
+        }
+    
+        public void paint(Graphics g){
+            super.paint(g);
+            
+            //screen (1 blue rectangle)
+            Color blue = new Color(179, 217, 255);
+            g.setColor(blue);
+            g.fillRect(0, 0, d.width, d.height);
+            
+            //penguin body (1 black oval)
+            g.setColor(Color.black);
+            g.fillOval(180, 250, 125, 150);
+            //flippers (2 black circles)
+            g.fillOval(170, 320, 25, 25);
+            g.fillOval(290, 320, 25, 25);
+            
+            //belly (1 white oval)
+            g.setColor(Color.white); 
+            g.fillOval(192, 225, 100, 140);
+            
+            //penguin head (1 black oval)
+            g.setColor(Color.black); 
+            g.fillOval(170, 200, 140, 110);
+            
+            //face (2 white circles)
+            g.setColor(Color.white);
+            g.fillOval(222, 225, 75, 75);
+            g.fillOval(185, 225, 75, 75);
+            //ice sheet (1 white rectangle)
+            g.fillRect(0, 390, 500, 140);
+            
+            //eyes (2 black circles)
+            g.setColor(Color.black);//
+            g.fillOval(200, 250, 20, 20);
+            g.fillOval(260, 250, 20, 20);
+            
+            //feet (2 orange circles)
+            Color orange = new Color(255, 212, 128);
+            g.setColor(orange);
+            g.fillOval(200, 380, 25, 25);
+            g.fillOval(260, 380, 25, 25);
+            //beak (1 orange triangle)
+            int[] x1 = {230, 240, 250}; //array of 3 x-coordinates (each point of triangle)
+            int[] y1 = {265, 280, 265}; //array of 3 y-coordinates (each point of triangle)
+            g.fillPolygon(x1, y1, 3); //fill closed polygon (3 = total number of points)
+            
+            Color green = new Color(193, 240, 193);
+            g.setColor(green);
+            //fill pine tree
+            int[] x2 = {365, 410, 455};
+            int[] y2 = {390, 290, 390};
+            g.fillPolygon(x2, y2, 3);
+            //outline pine tree
+            Color green2 = new Color(111, 220, 111);
+            g.setColor(green2);
+            g.drawPolygon(x2, y2, 3);
+            
+            //star on pine tree
+            Color yellow = new Color(255, 255, 128);
+            g.setColor(yellow);
+            g.fillOval(399, 280, 22, 22);
+            
+            //display drawing name
+            g.setColor(Color.black);
+            g.setFont(new Font("heavy", Font.PLAIN, 15));
+            g.drawString("~Penguin Tour", 390, 460);
+            g.dispose();
+        }
+    }
+}
