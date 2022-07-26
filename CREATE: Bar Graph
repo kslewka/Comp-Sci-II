@@ -54,7 +54,7 @@ public class BarGraph extends JFrame{
 
         @Override
         public void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D)g;  //g2 (graphics object) is used to draw things to the screen
+            Graphics2D g2 = (Graphics2D)g;  //g2 (graphics object) to draw things to the screen
             //create a white background
             g2.setColor(Color.white);
             Dimension d = getSize();
@@ -98,27 +98,29 @@ public class BarGraph extends JFrame{
                  * Date: 2022
                  * Source: https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
                  */
+                dc[i] = dc[i]*mult;
+                seattle[i] = seattle[i]*mult;
                 int valueDC = (int)dc[i];
                 int valueSeattle = (int)seattle[i];
                 
                 //paint vertical bars 
                 //navy for DC and ice blue for Seattle
                 g2.setColor(navy);
-                g2.fillRect(x , y-valueDC*mult, 10, valueDC*mult);
+                g2.fillRect(x , y-valueDC, 10, valueDC);
                 x+= 10; // increase by 10 (width of rectangle) --> no gap between bars of the same month
                 
                 g2.setColor(iceBlue);
-                g2.fillRect(x, y-valueSeattle*mult, 10, valueSeattle*mult);
+                g2.fillRect(x, y-valueSeattle, 10, valueSeattle);
                 x += 20; //increase by 20 --> gap between bars of different months
             }
             //cast largest (double) value as an integer
             int valueLargestOverall = (int)largestOverall;
             
             //draw x-axis line in ice blue
-            g2.drawLine(x-365, y, getWidth(), y);
+            g2.drawLine(35, y, getWidth(), y);
             
             //draw y-axis line w/ same color
-            g2.drawLine(x-360, y+5, x-360, y-valueLargestOverall*mult-20); 
+            g2.drawLine(40, y+5, 40, y-valueLargestOverall*mult-20); 
             
             //draw x-axis label
             g2.setColor(Color.black);
@@ -140,11 +142,11 @@ public class BarGraph extends JFrame{
             
             g2.setTransform(defaultAt); //restore the original, non-rotating transform 
             for (double i = 0; i <= valueLargestOverall+1; i++) { 
-                g2.setFont (new Font("opaque", Font.PLAIN, 7));
+                g2.setFont (new Font("opaque", Font.PLAIN, 6));
                 //y-axis max value is slighter larger than the max data point 
                 //draw numbers up to the largest value + 1
-                g2.drawString("" + i, x-382, y+2); 
-                g2.drawLine(x-365, y, x-360, y); //ticks 
+                g2.drawString("" + i, 20, y+2); 
+                g2.drawLine(35, y, 40, y); //ticks 
                 y -= mult; //increase by mult value
             }
 
